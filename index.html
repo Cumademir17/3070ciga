@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>3070 Ciga Futbol Takımı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <style>
+    #bg-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        min-width: 100%;
+        min-height: 100%;
+        z-index: -1;
+        object-fit: cover;
+        filter: brightness(0.4);
+    }
+    body {
+        margin: 0;
+        font-family: 'Orbitron', sans-serif;
+        color: #fff;
+        background: linear-gradient(-45deg, #1e3c72, #2a5298, #0f2027, #203a43, #2c5364);
+        background-size: 600% 600%;
+        animation: gradientBG 10s ease infinite;
+    }
+    @keyframes gradientBG {
+        0%{background-position:0% 50%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 50%}
+    }
+    header {
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.7);
+        position: relative;
+        z-index: 2;
+    }
+    img.logo {
+        height: 120px;
+    }
+    .players {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        padding: 30px;
+        position: relative;
+        z-index: 2;
+    }
+    .player {
+        width: 200px;
+        height: 300px;
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 10px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px #444;
+    }
+    .player img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    .calendar {
+        margin: 40px auto;
+        padding: 20px;
+        border: 2px solid gold;
+        border-radius: 15px;
+        max-width: 420px;
+        background: radial-gradient(circle at center, #910078, #000);
+        font-size: 24px;
+        text-align: center;
+        box-shadow: 0 0 20px gold;
+        position: relative;
+        z-index: 2;
+    }
+    .calendar::before {
+        content: "🏆 Maç Takvimi F4C5 ";
+        display: block;
+        font-size: 28px;
+        color: gold;
+        margin-bottom: 10px;
+    }
+    .fireworks {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .join-btn {
+        display: block;
+        margin: 40px auto;
+        padding: 15px 30px;
+        font-size: 20px;
+        background-color: #00bcd4;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 0 10px #00bcd4;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 2;
+        position: relative;
+    }
+    .join-btn:hover {
+        background-color: gold;
+        color: black;
+        box-shadow: 0 0 20px gold;
+    }
+    #join-video-modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0,0,0,0.9);
+        padding: 20px;
+        border-radius: 12px;
+        z-index: 9999;
+        box-shadow: 0 0 20px gold;
+    }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop id="bg-video">
+        <source src="video/videoplayback.mp4" type="video/mp4">
+    </video>
+    
+    <audio id="bg-music" autoplay muted loop>
+        <source src="audio/baiana.mp3" type="audio/mpeg" />
+    </audio>
+    <script>
+        window.addEventListener("load", function() {
+            const audio = document.getElementById("bg-music");
+            audio.muted = false;
+            audio.play().catch(() => {});
+        });
+    </script>
+
+    <div class="fireworks"><canvas id="fireworks-canvas"></canvas></div>
+
+    <header>
+        <img src="images/logo.png" alt="Logo" class="logo"/>
+        <h1>3070 Ciga Futbol Takımı</h1>
+    </header>
+
+    <div class="calendar">
+        BİS - 3070 Maç Yakında! 
+    </div>
+
+    <div class="players">
+        <div class="player"><img src="images/arda.png"><p>Arda Oflu<br>#04 – GK</p></div>
+        <div class="player"><img src="images/yigit.png" style="object-position: center 20%;"><p>Yiğit Sezmiş<br>#27 – STP</p></div>
+        <div class="player"><img src="images/kaan.png"><p>Kaan Cengiz<br>#20 – STP</p></div>
+        <div class="player"><img src="images/cuma.png"><p>Cuma Demir<br>#17 – MO</p></div>
+        <div class="player"><img src="images/utku.png"><p>Utku Baran<br>#10 – RW (Kaptan)</p></div>
+        <div class="player"><img src="images/dogan.png"><p>Doğan Barut<br>#11 – LW</p></div>
+        <div class="player"><img src="images/emre.png"><p>Emre Yayan<br>#7 – SNT</p></div>
+    </div>
+
+    <button class="join-btn" onclick="showJoinVideo()">
+        Takıma Katıl
+    </button>
+
+    <div id="join-video-modal">
+        <video id="join-video" width="360" controls autoplay>
+            <source src="giff.mp4" type="video/mp4">
+            Tarayıcınız video etiketini desteklemiyor.
+        </video>
+        <div style="text-align: right; margin-top: 10px;">
+            <button onclick="closeJoinVideo()" style="background: crimson; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Kapat</button>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById("fireworks-canvas");
+        const fireworks = new Fireworks.default(container.parentElement, {
+            autoresize: true,
+            opacity: 0.8,
+            acceleration: 1.05,
+            friction: 0.97,
+            gravity: 1.5,
+            particles: 80,
+            trace: 3,
+            explosion: 5
+        });
+        fireworks.start();
+
+        function showJoinVideo() {
+            const modal = document.getElementById("join-video-modal");
+            const video = document.getElementById("join-video");
+            modal.style.display = "block";
+            video.currentTime = 0;
+            video.play();
+        }
+
+        function closeJoinVideo() {
+            const modal = document.getElementById("join-video-modal");
+            const video = document.getElementById("join-video");
+            modal.style.display = "none";
+            video.pause();
+        }
+    </script>
+
+    <div style="position: fixed; bottom: 20px; left: 20px; z-index: 10;">
+        <button onclick="startMusic()" style="padding: 10px 20px; background: #222; color: white; border: 2px solid gold; border-radius: 10px; font-family: 'Orbitron', sans-serif; cursor: pointer; box-shadow: 0 0 10px gold;">
+            🎵 Müziği Başlat
+        </button>
+    </div>
+
+    <script>
+        function startMusic() {
+            const audio = document.getElementById("bg-music");
+            audio.muted = false;
+            audio.play().catch(e => {
+                console.log("Müzik başlatılamadı:", e);
+            });
+        }
+    </script>
+</body>
+</html>
